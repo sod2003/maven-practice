@@ -18,6 +18,7 @@ public class Main {
         }
         // start();
     }
+
     public static void start() {
 
         String choice = takeInput("Welcome to BookSearch. Would you like to search by title, author or genre?");
@@ -62,5 +63,44 @@ public class Main {
         String input = scanner.nextLine();
         scanner.close();
         return input;
+    }
+
+    public static int getUserId(String url) throws IllegalArgumentException {
+        return 0;
+   }
+
+    public static String getQueryParameterValue(String url, String key) throws NullPointerException, IllegalArgumentException {
+        
+        if (url == null || key == null) {
+            throw new NullPointerException();
+        }
+
+        if (key.isEmpty() || illegalArgumentHelper(key)) {
+            throw new IllegalArgumentException();
+        }
+
+        if (!(url.contains("?"))) {
+            return null;
+        }
+
+        int indexValueStart = url.lastIndexOf(key) + 2;
+        String shortStr = url.substring(indexValueStart);
+        int indexValueEnd = shortStr.contains("&") ?  shortStr.indexOf("&") : shortStr.length();
+        String value = shortStr.substring(0, indexValueEnd);
+
+        if (value.isEmpty()) {
+            return null;
+        }
+        return value;
+    }
+
+    public static boolean illegalArgumentHelper(String key) {
+        String illegalChars = ";" + "/" + "?" + ":" + "@" + "&" + "=" + "+" + "," + "$";
+        for (char c : illegalChars.toCharArray()) {
+            if (key.contains("" + c)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
